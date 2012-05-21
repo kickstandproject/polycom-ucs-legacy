@@ -1,0 +1,5 @@
+polycom-ucs-legacy (3.1.8-1kickstand0) UNRELEASED; urgency=low
+
+  * Initial release (Closes: #nnnn)  <nnnn is the bug number of your ITP>
+
+ -- Paul Belanger <paul.belanger@polybeacon.com>  Mon, 21 May 2012 15:50:34 -0400

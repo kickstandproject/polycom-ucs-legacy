@@ -1,0 +1,40 @@
+#!/usr/bin/make -f
+# Uncomment this to turn on verbose mode.
+#export DH_VERBOSE=1
+
+# This has to be exported to make some magic below work.
+export DH_OPTIONS
+
+DEBVERSION:=$(shell dpkg-parsechangelog | sed -n -e 's/Version: //p')
+DEB_NOEPOCH_VERSION:=$(shell echo $(DEBVERSION) | cut -d':' -f 2)
+DEB_SRC_VERSION:=$(shell echo $(DEB_NOEPOCH_VERSION) | sed -e 's/-[^-]\+$$//')
+UPVERSION:=$(shell echo $(DEB_SRC_VERSION) | sed -e 's/[.~]dfsg//' -e 's/~\(\(rc\|beta\)[0-9]\)/-\1/')
+
+FILENAME := polycom-ucs-legacy_$(DEB_SRC_VERSION).orig.tar.gz
+UPFILENAME := polycom-ucs-legacy_$(UPVERSION).zip
+URL := http://downloads.polycom.com/voice/voip/sp_ss_sip/spip_ssip_3_1_8_legacy_release_sig_split.zip
+
+%:
+	dh  $@
+
+print-version:
+	@@echo "Debian version:          $(DEBVERSION)"
+	@@echo "Upstream version:        $(UPVERSION)"
+
+print-filename:
+	@@echo "Filename:                $(FILENAME)"
+
+get-orig-source:
+	@@dh_testdir
+	@@[ -d ../tarballs/. ] || mkdir -p ../tarballs
+	@echo Downloading $(UPFILENAME) from $(URL) ...
+	@wget -nv -T10 -t3 -O ../tarballs/$(UPFILENAME) $(URL)
+	@echo Repacking as DFSG-free ...
+	@mkdir -p ../tarballs/polycom-ucs-legacy-$(UPVERSION).tmp
+	@cd ../tarballs/polycom-ucs-legacy-$(UPVERSION).tmp ; \
+		unzip ../$(UPFILENAME)
+	@cd ../tarballs/polycom-ucs-legacy-$(UPVERSION).tmp ; \
+		tar cf - * | gzip -9 >../$(FILENAME)
+	@echo Cleaning up...
+	@$(RM) -rf ../tarballs/polycom-ucs-legacy-$(UPVERSION).tmp
+	@$(RM) -rf ../tarballs/$(UPFILENAME)

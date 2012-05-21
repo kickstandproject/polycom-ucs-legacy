@@ -1,0 +1,15 @@
+Source: polycom-ucs-legacy
+Section: comm
+Priority: optional
+Maintainer: Paul Belanger <paul.belanger@polybeacon.com>
+Build-Depends: debhelper (>= 7)
+Standards-Version: 3.8.3
+Homepage: http://www.polycom.com/
+Vcs-Git: git://github.com/kickstandproject/polycom-ucs-legacy.git
+Vcs-Browser: https://github.com/kickstandproject/polycom-ucs-legacy
+
+Package: polycom-ucs-legacy
+Architecture: all
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: <insert up to 60 chars description>
+ <insert long description, indented with spaces>
