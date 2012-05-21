@@ -17,6 +17,15 @@ URL := http://downloads.polycom.com/voice/voip/sp_ss_sip/spip_ssip_3_1_8_legacy_
 %:
 	dh  $@
 
+override_dh_install:
+	mv 2201-06642-001.sip_318.ld 2201-06642-001.sip.ld
+	mv 2345-11300-010.sip_318.ld 2345-11300-010.sip.ld
+	mv 2345-11500-030.sip_318.ld 2345-11500-030.sip.ld
+	mv 2345-11500-040.sip_318.ld 2345-11500-040.sip.ld
+	mv 2345-11600-001.sip_318.ld 2345-11600-001.sip.ld
+	mv 2345-11605-001.sip_318.ld 2345-11605-001.sip.ld
+	dh_install
+
 print-version:
 	@@echo "Debian version:          $(DEBVERSION)"
 	@@echo "Upstream version:        $(UPVERSION)"
